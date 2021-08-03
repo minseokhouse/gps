@@ -3,6 +3,7 @@ import time
 import string
 import pynmea2
 import sys
+import requests
 from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub
 from pubnub.exceptions import PubNubException
@@ -19,6 +20,9 @@ pnconfig.ssl = False
 pubnub = PubNub(pnconfig)
 pubnub.subscribe().channels(pnChannel).execute()
 
+
+url = "http://www.naver.com"
+
 while True:
     port="/dev/ttyAMA0"
     ser=serial.Serial(port, baudrate=9600, timeout=0.5)
@@ -32,6 +36,33 @@ while True:
                 newmsg=pynmea2.parse(newdata)
                 lat=newmsg.latitude
                 lng=newmsg.longitude
+                
+            
+                # Method Get
+                
+                paramDict = {
+                    "lat" : lat,
+                    "lng" : lng
+                }
+                
+                response = requests.get(url, params=paramDict)
+                print("status code : ", response.status_code)
+                print(response.url)
+                
+                
+                
+                # Method Post
+                '''
+                datas = {
+                    "lat" : lat,
+                    "lng" : lng
+                }
+                
+                response = requests.post(url, data=datas)
+                print("status code :", response.status_code)
+                print(response.url)
+                '''
+                
                 try:
                     envelope = pubnub.publish().channel(pnChannel).message({'lat':lat, 'lng':lng}).sync()
                     print("publish timetoken: %s" % envelope.result)
