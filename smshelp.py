@@ -37,7 +37,7 @@ body = {
         "content": message,
         "messages": [{"to": phone}]
 }
-
+ 
 body = json.dumps(body)
 
 response = requests.post(api_url, headers=headers, data=body)
