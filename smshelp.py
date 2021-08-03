@@ -29,7 +29,7 @@ headers = {
         'x-ncp-iam-access-key': access_key,
         'x-ncp-apigw-signature-v2': signature
 }
-
+ 
 body = {
         "type": "SMS",
         "contentType": "COMM",
