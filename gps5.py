@@ -5,7 +5,7 @@ import pynmea2
 import sys
 import requests
 
-
+ 
 
 url = "http://www.naver.com"
 
